@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Brain tumor classification and segmentation</title>
+    <meta
+      content="An Innovative Solution to Facilitate Brain Tumor Detection Through
+    MRI Image Uploads!"
+      name="description"
+    />
+    <meta
+      content="brain tumor segmentation, brain tumor classification, medical imaging, healthcare, machine learning, deep learning, neural networks"
+      name="keywords"
+    />
+
+    <!-- Favicons -->
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='assets/vendor/boxicons/css/boxicons.min.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='assets/vendor/remixicon/remixicon.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}"
+      rel="stylesheet"
+    />
+
+    <!-- Template Main CSS File -->
+    <link
+      href="{{ url_for('static', filename='assets/css/style.css') }}"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+      <div class="container d-flex align-items-center">
+        <h4 class="logo me-auto">
+          <a href="index.html">Brain Tumor MRI Analyzer</a>
+        </h4>
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+            <li>
+              <a class="nav-link scrollto active" href="#predict">Predict</a>
+            </li>
+            <li><a class="nav-link scrollto" href="#about">About</a></li>
+            <li><a class="nav-link scrollto" href="#services">Services</a></li>
+            <li>
+              <a class="nav-link scrollto" href="#skills">performance</a>
+            </li>
+            <li>
+              <a class="nav-link scrollto" href="#skills">Contact</a>
+            </li>
+            <li><a class="nav-link scrollto" href="#team">Team</a></li>
+            <li>
+              <a class="getstarted scrollto" href="#predict">Get Started</a>
+            </li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
+      </div>
+    </header>
+    <!-- End Header -->
+
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex align-items-center">
+      <div class="container">
+        <div class="row">
+          <div
+            class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            <h1>MRI Images Brain tumor classification and segmentation</h1>
+            <h2>
+              An Innovative Solution to Facilitate Brain Tumor Detection Through
+              MRI Image Uploads!
+            </h2>
+            <div class="d-flex justify-content-center justify-content-lg-start">
+              <a href="#predict" class="btn-get-started scrollto"
+                >Get Started</a
+              >
+              <!--  <a
+                href="https://www.youtube.com/watch?v=jDDaplaOz7Q"
+                class="glightbox btn-watch-video"
+                ><i class="bi bi-play-circle"></i><span>Watch Video</span></a
+              > -->
+            </div>
+          </div>
+          <div
+            class="col-lg-6 order-1 order-lg-2 hero-img"
+            data-aos="zoom-in"
+            data-aos-delay="200"
+          >
+            <img
+              src="{{ url_for('static', filename='assets/img/hero-2-01.png') }}"
+              class="img-fluid animated"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Hero -->
+
+    <main id="main">
+      <!-- ======= Get Started Section ======= -->
+      <section id="predict" class="about">
+        <div class="container" data-aos="fade-up">
+          <div class="upload-container">
+            <div class="upload-form">
+              <form
+                action="/"
+                method="POST"
+                enctype="multipart/form-data"
+                id="uploadForm"
+              >
+                <div class="mb-3 text-center upload-box" id="uploadBox">
+                  <label for="imageInput" class="form-label">
+                    <i class="bx bx-cloud-upload bx-3x"></i>
+                    <div>Choose or Drag and Drop an image</div>
+                  </label>
+                  <div class="input-group half-width-input">
+                    <input
+                      class="form-control form-control-lg"
+                      id="imageInput"
+                      type="file"
+                      name="imagefile"
+                      accept="image/*"
+                    />
+                  </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <button type="submit" class="btn-upload">Predict</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- JavaScript Section -->
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          var uploadBox = document.getElementById("uploadBox");
+
+          uploadBox.addEventListener("dragover", function (e) {
+            e.preventDefault();
+            uploadBox.classList.add("dragover");
+          });
+
+          uploadBox.addEventListener("dragleave", function () {
+            uploadBox.classList.remove("dragover");
+          });
+
+          uploadBox.addEventListener("drop", function (e) {
+            e.preventDefault();
+            uploadBox.classList.remove("dragover");
+
+            var files = e.dataTransfer.files;
+            document.getElementById("imageInput").files = files;
+          });
+
+          // Add a hover effect on the upload box
+          uploadBox.addEventListener("mouseenter", function () {
+            uploadBox.classList.add("hover");
+          });
+
+          uploadBox.addEventListener("mouseleave", function () {
+            uploadBox.classList.remove("hover");
+          });
+        });
+      </script>
+      <!-- ======= End Get Started Section ======= -->
+
+      <!-- ======= About Us Section ======= -->
+      <section id="about" class="about">
+        <div class="container" data-aos="fade-up">
+          <div class="section-title">
+            <h2>About Us</h2>
+          </div>
+
+          <div class="row content">
+            <p style="font-size: 1rem">
+              This website was created by three students from Sfax Engineering
+              School - Oussama Slimani, Siwar Gouirah, and Iheb Charfeddine. Its
+              main goal is to help doctors quickly identify brain tumors. The
+              website allows doctors to easily upload and analyze MRI images.
+              The main aim is to make the diagnostic process faster and more
+              accurate, which can help doctors detect brain problems sooner. The
+              website is designed to improve the efficiency of medical
+              professionals, making sure that patients with possible
+              neurological issues receive timely treatment.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- End About Us Section -->
+
+      <!-- ======= Why Us Section ======= -->
+      <section id="services" class="why-us section-bg">
+        <div class="container-fluid" data-aos="fade-up">
+          <div class="row">
+            <div class="col-lg-6 d-flex flex-column justify-content-center">
+              <div class="content">
+                <h3>
+                  Effortlessly detects brain tumors with a
+                  <strong
+                    >user-friendly interface for easy MRI image uploads.</strong
+                  >
+                </h3>
+              </div>
+
+              <div class="accordion-list">
+                <ul>
+                  <li class="mt-2">
+                    <a><span>01</span> Upload the images </a>
+                  </li>
+                  <li>
+                    <a
+                      ><span>02</span>Receive a message indicating whether the
+                      uploaded image shows a brain tumor or not
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      ><span>03</span>If the message indicates a brain tumor,
+                      there is an option to perform segmentation on the images.
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div
+              class="col-lg-6 d-flex align-items-center"
+              data-aos="fade-right"
+              data-aos-delay="100"
+            >
+              <img
+                src="{{ url_for('static', filename='assets/img/about-01.png') }}"
+                alt=""
+                style="width: 800px"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Why Us Section -->
+
+      <!-- ======= Skills Section ======= -->
+      <section id="skills" class="skills">
+        <div class="container" data-aos="fade-up">
+          <div class="row">
+            <div
+              class="col-lg-6 d-flex align-items-center"
+              data-aos="fade-right"
+              data-aos-delay="100"
+            >
+              <img
+                src="{{ url_for('static', filename='assets/img/skills.png') }}"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+            <div
+              class="col-lg-6 pt-4 pt-lg-0 content"
+              data-aos="fade-left"
+              data-aos-delay="100"
+            >
+              <h3>High precision in analyzing uploaded MRI images!</h3>
+
+              <div class="skills-content">
+                <div class="progress">
+                  <span class="skill">Accuracy <i class="val">98.7%</i></span>
+                  <div class="progress-bar-wrap">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      aria-valuenow="98"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                </div>
+
+                <div class="progress">
+                  <span class="skill">recall <i class="val">99%</i></span>
+                  <div class="progress-bar-wrap">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      aria-valuenow="99"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                </div>
+
+                <div class="progress">
+                  <span class="skill">f1-score <i class="val">99%</i></span>
+                  <div class="progress-bar-wrap">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      aria-valuenow="99"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Skills Section -->
+
+      <!-- ======= Contact Section ======= -->
+      <section id="contact" class="contact">
+        <div class="container" data-aos="fade-up">
+          <div class="section-title">
+            <h2>Contact us</h2>
+            <p>
+              Contact us if you have any suggestions or ideas to further improve
+              the brain tumor analysis platform.
+            </p>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+              <form id="contactForm" class="php-email-form">
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="fullName">Your Name</label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      class="form-control"
+                      id="fullName"
+                      required
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="email">Your Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      id="email"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="subject">Subject</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="subject"
+                    id="subject"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea
+                    class="form-control"
+                    name="message"
+                    id="message"
+                    rows="10"
+                    required
+                  ></textarea>
+                </div>
+                <div class="my-3">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">
+                    Your message has been sent. Thank you!
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit">Send Message</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Contact Section -->
+
+      <!-- ======= Team Section ======= -->
+      <section id="team" class="team section-bg">
+        <div class="container" data-aos="fade-up">
+          <div class="section-title">
+            <h2>Team</h2>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
+              <div class="member d-flex align-items-start align-items-center">
+                <div class="pic">
+                  <img
+                    src="{{ url_for('static', filename='assets/img/team/team (4).jpg') }}"
+                    class="img-fluid"
+                    alt=""
+                  />
+                </div>
+                <div class="member-info">
+                  <h4>Olfa Gaddour</h4>
+                  <h5>Assistant Professor at ENIS</h5>
+                  <div class="social">
+                    <a href=""><i class="ri-facebook-fill"></i></a>
+                    <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="col-lg-6 mt-4 mt-lg-0"
+              data-aos="zoom-in"
+              data-aos-delay="200"
+            >
+              <div class="member d-flex align-items-start align-items-center">
+                <div class="pic">
+                  <img
+                    src="{{ url_for('static', filename='assets/img/team/team (2).jpg') }}"
+                    class="img-fluid"
+                    alt=""
+                  />
+                </div>
+                <div class="member-info">
+                  <h4>Siwar Gouirah</h4>
+                  <h5>2nd-year Computer Science Engineering student at ENIS</h5>
+                  <div class="social">
+                    <a href=""><i class="ri-facebook-fill"></i></a>
+                    <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 mt-4" data-aos="zoom-in" data-aos-delay="300">
+              <div class="member d-flex align-items-start align-items-center">
+                <div class="pic">
+                  <img
+                    src="{{ url_for('static', filename='assets/img/team/team (3).jpg') }}"
+                    class="img-fluid"
+                    alt=""
+                  />
+                </div>
+                <div class="member-info">
+                  <h4>Oussama Slimani</h4>
+
+                  <h5>2nd-year Computer Science Engineering student at ENIS</h5>
+                  <div class="social">
+                    <a href=""><i class="ri-facebook-fill"></i></a>
+                    <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 mt-4" data-aos="zoom-in" data-aos-delay="400">
+              <div class="member d-flex align-items-start align-items-center">
+                <div class="pic">
+                  <img
+                    src="{{ url_for('static', filename='assets/img/team/team (1).jpg') }}"
+                    class="img-fluid"
+                    alt=""
+                  />
+                </div>
+                <div class="member-info">
+                  <h4>Iheb Charfeddine</h4>
+                  <h5>2nd-year Computer Science Engineering student at ENIS</h5>
+                  <div class="social">
+                    <a href=""><i class="ri-facebook-fill"></i></a>
+                    <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Team Section -->
+    </main>
+    <!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+      <div class="container footer-bottom clearfix">
+        <div class="copyright text-center">
+          &copy; Copyright. All Rights Reserved
+        </div>
+      </div>
+    </footer>
+    <!-- End Footer -->
+
+    <div id="preloader"></div>
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <!-- Vendor JS Files -->
+    <script src="{{ url_for('static', filename='assets/vendor/aos/aos.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/php-email-form/validate.js') }}"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+      } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCXcdlrV0WC1cRhicUvZVqP7wG0LwgvLYY",
+        authDomain: "brain-tumor-mail.firebaseapp.com",
+        projectId: "brain-tumor-mail",
+        storageBucket: "brain-tumor-mail.appspot.com",
+        messagingSenderId: "776951161833",
+        appId: "1:776951161833:web:ff07f090a769f1f4cb6178",
+        measurementId: "G-Q4TRJP7N41",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+
+      function writeMessage(userId, fullName, email, subject, message) {
+        set(ref(database, "messages/" + userId), {
+          fullName: fullName,
+          email: email,
+          subject: subject,
+          message: message,
+        })
+          .then(() => {
+            document.getElementById("contactForm").reset();
+            document.querySelector(".sent-message").style.display = "block";
+            setTimeout(() => {
+              document.querySelector(".sent-message").style.display = "none";
+            }, 5000);
+          })
+          .catch((error) => {
+            console.error("Error writing data to the database: ", error);
+            document.querySelector(".error-message").innerHTML =
+              "Error occurred. Please try again later.";
+            document.querySelector(".error-message").style.display = "block";
+            setTimeout(() => {
+              document.querySelector(".error-message").style.display = "none";
+            }, 5000);
+          });
+      }
+
+      // Function to generate a unique user ID (you can implement your own logic here)
+      function generateUserId() {
+        return Math.random().toString(36).substring(2);
+      }
+
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const fullName = document.getElementById("fullName").value;
+          const email = document.getElementById("email").value;
+          const subject = document.getElementById("subject").value;
+          const message = document.getElementById("message").value;
+          const userId = generateUserId();
+          writeMessage(userId, fullName, email, subject, message);
+        });
+    </script>
+  </body>
+</html>
