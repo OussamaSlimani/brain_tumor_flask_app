@@ -37,10 +37,14 @@ def classify_image(image_path):
     img = preprocess_image(image_path)
     # Perform classification
     prediction = model.predict(img)
-    # Get the predicted class
+    # Get the predicted class index
     predicted_class_index = np.argmax(prediction)
+    # Get the predicted class
     predicted_class = list(class_mappings.keys())[predicted_class_index]
-    return predicted_class
+    # Get the probability of the predicted class
+    predicted_probability = prediction[0][predicted_class_index]
+    return predicted_class, predicted_probability
+
 
 # ******************************** segmentation ********************************
 def conv_block1(inputs, filters):
@@ -128,12 +132,13 @@ def upload_file():
         image_path = "static/uploads/original.jpg"
         imagefile.save(image_path)
 
-        predicted_class = classify_image(image_path)
+        predicted_class, predicted_probability = classify_image(image_path)
+
 
         if predicted_class != "Notumor":
             highlight_tumor(image_path) 
 
-        return render_template('result.html', predicted_class=predicted_class)
+        return render_template('result.html', predicted_class=predicted_class,predicted_probability=predicted_probability)
 
     return render_template('index.html')
 
